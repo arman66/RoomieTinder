@@ -1,0 +1,4 @@
+{
+  "mongoURI": "mongodb+srv://arma123:arma123@cluster0.byb5b.mongodb.net/<dbname>?retryWrites=true&w=majority",
+  "jwtsecret": "thisisthesecret"
+}
