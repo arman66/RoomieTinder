@@ -1,5 +1,7 @@
 $textcolor: #3f729b;
 $secondary-color: #66757f;
+$danger: #dc3545;
+$success: #28a745;
 * {
   box-sizing: border-box;
   margin: 0;
@@ -16,6 +18,23 @@ body {
   line-height: 1.5;
 }
 
+.alert {
+  display: flex;
+  justify-content: center;
+  padding: 0.8rem;
+  margin: 1rem 0;
+  opacity: 0.9;
+  background: $secondary-color;
+  color: #333;
+}
+.alert-danger {
+  background: $danger;
+  color: #fff;
+}
+.alert-success {
+  background: $success;
+  color: #fff;
+}
 a {
   text-decoration: none;
 }
