@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 
 export const Footer = () => {
   return (
@@ -9,7 +9,7 @@ export const Footer = () => {
             <i className="fas fa-globe fa-2x"></i> English (United States)
           </div>
           <ul>
-            <li>
+            {/* <li>
               <a href="#">Sitemap</a>
             </li>
             <li>
@@ -32,7 +32,7 @@ export const Footer = () => {
             </li>
             <li>
               <a href="#">&copy; Armin 2020</a>
-            </li>
+            </li> */}
           </ul>
         </div>
       </footer>
