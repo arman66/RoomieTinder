@@ -6,10 +6,12 @@ const ListingSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: "user",
   },
-  username: {
+
+  name: {
     type: String,
-    required: true,
+    require: true,
   },
+
   listingname: {
     type: String,
     required: true,

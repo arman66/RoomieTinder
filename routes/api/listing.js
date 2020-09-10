@@ -4,6 +4,7 @@ const auth = require("../../middleware/auth");
 const checkObjectId = require("../../middleware/checkObjectId");
 const Listing = require("../../models/Listing");
 const User = require("../../models/Users");
+const { check, validationResult } = require("express-validator");
 
 // @route    POST api/listings
 // @desc     Create a post
@@ -17,7 +18,7 @@ router.post("/", [auth], async (req, res) => {
       description: req.body.description,
       listingname: req.body.listingname,
       location: req.user.location,
-      username: user.name,
+      name: user.name,
       user: req.user.id,
     });
 
@@ -37,6 +38,7 @@ router.get("/", async (req, res) => {
   try {
     const listings = await Listing.find().sort({ date: -1 });
     res.json(listings);
+    console.log(listings);
   } catch (err) {
     console.error(err.message);
     res.status(500).send("Server Error");

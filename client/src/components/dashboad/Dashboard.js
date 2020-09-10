@@ -1,12 +1,19 @@
-import React, { Fragment, useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+import React, { Fragment, useEffect } from "react";
+import { Link } from "react-router-dom";
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
+import Spinner from "../layout/Spinner";
+import { getCurrentProfile } from "../../actions/profile";
+import DashboardActions from "./DashboardActions";
 
-const Dashboard = ({ auth: { user } }) => {
+const Dashboard = ({
+  auth: { user },
+  getCurrentProfile,
+  profile: { profile, loading },
+}) => {
   useEffect(() => {
-    console.log('hey');
-  }, []);
+    getCurrentProfile();
+  }, [getCurrentProfile]);
 
   return (
     <Fragment>
@@ -15,21 +22,32 @@ const Dashboard = ({ auth: { user } }) => {
         <i className="fas fa-user" /> Welcome {user && user.name}
       </p>
 
-      <h1>no profile</h1>
-      <Fragment>
-        <p>You have not yet setup a profile, please add some info</p>
-        <Link to="/create-profile">Create Profile</Link>
-      </Fragment>
+      {profile !== null ? (
+        <Fragment>
+          {" "}
+          <DashboardActions />
+        </Fragment>
+      ) : (
+        <Fragment>
+          <p>You hace not yet setup a profile, please add some info</p>
+          <Link to="/create-profile" className="btn-primary">
+            Create Profile
+          </Link>
+        </Fragment>
+      )}
     </Fragment>
   );
 };
 
 Dashboard.propTypes = {
   auth: PropTypes.object.isRequired,
+  getCurrentProfile: PropTypes.func.isRequired,
+  profile: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   auth: state.auth,
+  profile: state.profile,
 });
 
-export default connect(mapStateToProps)(Dashboard);
+export default connect(mapStateToProps, { getCurrentProfile })(Dashboard);
