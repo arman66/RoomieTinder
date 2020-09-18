@@ -1,5 +1,6 @@
 const express = require("express");
 const router = express.Router();
+const normalize = require("normalize-url");
 const auth = require("../../middleware/auth");
 //const { check, validationResult } = require("express-validator");
 const Profile = require("../../models/Profile");
@@ -10,6 +11,7 @@ const checkObjectId = require("../../middleware/checkObjectId");
 // @desc     Get current users profile
 // @access   Private
 router.get("/me", auth, async (req, res) => {
+  console.log("it got to profile/me route");
   try {
     const profile = await Profile.findOne({
       user: req.user.id,
@@ -30,30 +32,15 @@ router.get("/me", auth, async (req, res) => {
 // @desc     Create or update users profile
 // @access   Private
 router.post("/", [auth], async (req, res) => {
-  const {
-    sex,
-    location,
-    bio,
-    age,
-    youtube,
-    twitter,
-    instagram,
-    linkedin,
-    facebook,
-  } = req.body;
+  const { sex, bio, age, job } = req.body;
 
   const profileFields = {
     user: req.user.id,
-    location,
+    job,
     sex,
     bio,
     age,
   };
-
-  // Build social object and add to profileFields
-  const socialfields = { youtube, twitter, instagram, linkedin, facebook };
-
-  profileFields.social = socialfields;
 
   try {
     // Using upsert option (creates new doc if no match is found):

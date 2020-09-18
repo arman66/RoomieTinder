@@ -1,34 +1,81 @@
 const express = require("express");
 const router = express.Router();
+
 const auth = require("../../middleware/auth");
 const checkObjectId = require("../../middleware/checkObjectId");
 const Listing = require("../../models/Listing");
 const User = require("../../models/Users");
+
 const { check, validationResult } = require("express-validator");
 
-// @route    POST api/listings
-// @desc     Create a post
+// @route    GET api/listing/me
+// @desc     Get current users listing
 // @access   Private
 
-router.post("/", [auth], async (req, res) => {
+router.get("/me", [auth], async (req, res) => {
   try {
-    const user = await User.findById(req.user.id).select("-password");
-
-    const newListing = new Listing({
-      description: req.body.description,
-      listingname: req.body.listingname,
-      location: req.user.location,
-      name: user.name,
+    console.log("it got to te listing/me");
+    const listing = await Listing.findOne({
       user: req.user.id,
-    });
+    }).populate("user");
 
-    const listing = await newListing.save();
+    if (!listing) {
+      return res.status(400).json({ msg: "There is no listing for this user" });
+    }
 
     res.json(listing);
   } catch (err) {
     console.error(err.message);
     res.status(500).send("Server Error");
   }
+});
+
+// @route    POST api/listings
+// @desc     Create a post
+// @access   Private
+
+router.post("/", [auth], async (req, res) => {
+  const { description, listingName, location, furnished, price } = req.body;
+
+  const listingFields = {
+    user: req.user.id,
+    description,
+    listingName,
+    location,
+    furnished,
+    price,
+  };
+
+  try {
+    // Using upsert option (creates new doc if no match is found):
+    const listing = await Listing.findOneAndUpdate(
+      { user: req.user.id },
+      { $set: listingFields },
+      { new: true, upsert: true }
+    );
+    res.json(listing);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Server Error");
+  }
+  // try {
+  //   const user = await User.findById(req.user.id).select("-password");
+
+  //   const newListing = new Listing({
+  //     description: req.body.description,
+  //     listingName: req.body.listingName,
+  //     location: req.user.location,
+  //     name: user.name,
+  //     user: req.user.id,
+  //   });
+
+  //   const listing = await newListing.save();
+
+  //   res.json(listing);
+  // } catch (err) {
+  //   console.error(err.message);
+  //   res.status(500).send("Server Error");
+  // }
 });
 
 // @route    GET api/listing
@@ -38,17 +85,17 @@ router.get("/", async (req, res) => {
   try {
     const listings = await Listing.find().sort({ date: -1 });
     res.json(listings);
-    console.log(listings);
   } catch (err) {
     console.error(err.message);
     res.status(500).send("Server Error");
   }
 });
 
-// @route    GET api/listing/:id
+// @route    GET api/listings/:id
 // @desc     Get post by ID
 // @access   Public
 router.get("/:id", [checkObjectId("id")], async (req, res) => {
+  console.log("it got to the ind listing route in api");
   try {
     const listing = await Listing.findById(req.params.id);
 

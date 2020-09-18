@@ -7,14 +7,9 @@ const ListingSchema = new Schema({
     ref: "user",
   },
 
-  name: {
+  listingName: {
     type: String,
     require: true,
-  },
-
-  listingname: {
-    type: String,
-    required: true,
   },
   description: {
     type: String,
@@ -26,7 +21,7 @@ const ListingSchema = new Schema({
     type: String,
   },
   furnished: {
-    type: Boolean,
+    type: String,
   },
   review: [
     {

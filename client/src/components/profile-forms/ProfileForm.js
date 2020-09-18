@@ -1,14 +1,13 @@
 import React, { Fragment, useState, useEffect } from "react";
-import { Link, withRouter } from "react-router-dom";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { createProfile, getCurrentProfile } from "../../actions/profile";
 
 const initialState = {
   sex: "",
-  location: "",
   bio: "",
   age: "",
+  job: "",
 };
 
 const ProfileForm = ({
@@ -26,16 +25,17 @@ const ProfileForm = ({
       for (const key in profile) {
         if (key in profileData) profileData[key] = profile[key];
       }
-      for (const key in profile.social) {
-        if (key in profileData) profileData[key] = profile.social[key];
+      for (const key in profile.listing) {
+        if (key in profileData) profileData[key] = profile.listing[key];
       }
       if (Array.isArray(profileData.skills))
         profileData.skills = profileData.skills.join(", ");
+
       setFormData(profileData);
     }
   }, [loading, getCurrentProfile, profile]);
 
-  const { sex, location, bio, age } = formData;
+  const { sex, bio, age, job } = formData;
 
   const onChange = (e) =>
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -61,15 +61,7 @@ const ProfileForm = ({
                 onChange={onChange}
               />
             </div>
-            <div className="form-group">
-              <input
-                type="text"
-                placeholder="Location"
-                name="location"
-                value={location}
-                onChange={onChange}
-              />
-            </div>
+
             <div className="form-group">
               <textarea
                 type="text"
@@ -91,6 +83,15 @@ const ProfileForm = ({
                 onChange={onChange}
               />
             </div>
+            <div className="form-group">
+              <input
+                type="text"
+                placeholder="job or occupation"
+                name="job"
+                value={job}
+                onChange={onChange}
+              />
+            </div>
 
             <input type="submit" className="btn" value="Submit" />
           </form>
@@ -102,7 +103,7 @@ const ProfileForm = ({
 
 ProfileForm.propTypes = {
   createProfile: PropTypes.func.isRequired,
-  //getCurrentProfile: PropTypes.func.isRequired,
+  getCurrentProfile: PropTypes.func.isRequired,
   profile: PropTypes.object.isRequired,
 };
 

@@ -1,9 +1,9 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import hotel from '../../img/hotel.png';
-import fun from '../../img/fun.jpg';
-import roomie from '../../img/roomie.jpg';
-import apt from '../../img/apt.jpg';
+import React from "react";
+import { Link } from "react-router-dom";
+import hotel from "../../img/hotel.png";
+import fun from "../../img/fun.jpg";
+import roomie from "../../img/roomie.jpg";
+import apt from "../../img/apt.jpg";
 
 const Landing = () => {
   return (
@@ -36,9 +36,9 @@ const Landing = () => {
               Lorem, ipsum dolor sit amet consectetur adipisicing elit. Est
               eligendi tempore atque laborum. Quisquam nemo at non. Corrupti,
             </p>
-            <a href="#!">
+            <Link to="#!">
               Learn More <i className="fas fa-chevron-right"></i>
-            </a>
+            </Link>
           </div>
           <div>
             <img src={fun} alt="fun" />
@@ -47,9 +47,9 @@ const Landing = () => {
               Lorem, ipsum dolor sit amet consectetur adipisicing elit. Est
               eligendi tempore atque laborum. Quisquam nemo at non. Corrupti,
             </p>
-            <a href="#!">
+            <Link to="#!">
               Learn More <i className="fas fa-chevron-right"></i>
-            </a>
+            </Link>
           </div>
           <div>
             <img src={apt} alt="apt" />
@@ -58,9 +58,9 @@ const Landing = () => {
               Lorem, ipsum dolor sit amet consectetur adipisicing elit. Est
               eligendi tempore atque laborum. Quisquam nemo at non. Corrupti,
             </p>
-            <a href="#!">
+            <Link to="#!">
               Learn More <i className="fas fa-chevron-right"></i>
-            </a>
+            </Link>
           </div>
         </section>
       </div>
